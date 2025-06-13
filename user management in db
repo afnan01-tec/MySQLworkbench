@@ -1,0 +1,7 @@
+create user if not exists appu@localhost identified by 'appu123';
+grant all privileges on *.* to appu@localhost;
+grant all privileges on sakila.* to appu@localhost;
+show grants for appu@localhost; 
+revoke all privileges on sakila.* from appu@localhost;
+grant create,select,insert on sakila.* to appu@localhost; 
+flush privileges;
