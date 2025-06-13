@@ -1,0 +1,106 @@
+/*(create and show table)*/
+
+create database employee_db;
+use employee_db;
+create table `employee_db`.`employee_details`(
+`id` int not null,
+`name` varchar(50) not null,
+`age` smallint null,
+`location` varchar(50) null,
+primary key(`id`));
+desc employee_details;
+show tables;
+
+/* (alter table commands)*/
+
+alter table `employee_details` change column `id` `id` int not null auto_increment;
+alter table `employee_details` add DOB date;
+
+/*(inserting data into the tables)*/
+
+1)USE employee_db;
+INSERT INTO employee_details (name, age, location, DOB)
+VALUES ('tom', 2, 'usa', '2018-10-20');
+
+2)INSERT INTO employee_details (name, age, location, DOB)
+VALUES('jerry',3,'usa','2019-10-5'),('adam',5,'india','2018-10-7');
+
+3)insert into employee_details values(6,"dev",6,"finland","2005-09-4");
+
+4)insert into employee_details(name,age,DOB) values("afnan",21,"2004-01-01");
+
+
+/*updating data from table*/
+
+select *from employee_details;
+select `name`,`age` from employee_details;
+set sql_safe_updates=0;
+update employee_details set name ="Ramu" where name="adam";
+select *from employee_details;
+
+/*(delete and drop)*/
+
+delete from employee_details where name ="tom";
+drop table employee_details;
+show tables;
+
+/*NORTHWIND DATABASE*/
+/*min and max  aggregate*/
+select *from northwind.products;
+select min(unitprice) as "minimum unit price" from products;
+select max(unitprice) as "maximum unit price" from products;
+
+SELECT ProductID, ProductName, UnitPrice
+FROM Products
+WHERE UnitPrice = (SELECT MIN(UnitPrice) FROM Products);
+/*OR*/
+SELECT ProductID, ProductName, UnitPrice
+FROM Products
+WHERE UnitPrice = (SELECT max(UnitPrice) FROM Products);
+
+
+
+/*average*/
+select avg(unitprice) from products;
+select avg(unitprice) as "avg unit price" from products;
+/*subquery*/
+SELECT ProductID, ProductName, UnitPrice
+FROM Products
+WHERE UnitPrice > (SELECT avg(UnitPrice) FROM Products);
+
+/*SUM*/
+select sum(UnitsInStock) as "total stock" from products where Discontinued=1;
+
+
+/*count*/
+select count(ProductID) as "products count" from products where Discontinued=1;
+
+/*limit*/
+SELECT *FROM categories order by CategoryID limit 2,4;
+
+
+/*distinct*/
+SELECT city FROM customers;
+SELECT DISTINCT city FROM customers;
+SELECT DISTINCT city,region FROM customers;
+SELECT DISTINCT city,region FROM customers where Country="Mexico";
+
+/*GROUP BY CLAUSE*/
+SELECT COUNT(CustomerID) AS "no of customers",Country FROM Customers GROUP BY Country;
+SELECT COUNT(CustomerID) AS "no of Customers",Country FROM Customers GROUP BY Country ORDER BY COUNT(CustomerID);
+
+/*WHERE CLAUSE WITH OPERATORS*/
+SELECT CompanyName,city FROM suppliers WHERE country="Mexico" ORDER BY companyname;
+SELECT *FROM customers where customerid between 1 and 5;
+SELECT *FROM customers where customerid in (1,2,3);
+SElECT *FROM customers where companyname like "Alfreds Futterkiste"
+
+
+/*ORDER BY clause*/
+select productid,productname from products order by supplierid desc;
+select productid,productname from products order by supplierid desc,CategoryID ASC;
+
+
+/*having clause*/
+select CategoryID,avg(UnitPrice) From products group by CategoryID having avg(UnitPrice)>20 order by avg(UnitPrice);
+
